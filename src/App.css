@@ -1,0 +1,15 @@
+.App {
+    margin: 20px;
+}
+
+.Comment {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+}
+
+.NewComment {
+    margin: 5px 5px 20px;
+}

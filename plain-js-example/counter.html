@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redux basic example</title>
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+</head>
+<body>
+<div>
+    <p>
+        Clicked: <span id="value">0</span> times
+        <br/>
+        <button id="decrement">-</button>
+        <button id="increment">+</button>
+        <br/>
+        <button id="reset">Reset</button>
+    </p>
+    <a href="https://redux.js.org/tutorials/fundamentals/part-1-overview#redux-core-example-app">Redux docs</a>
+</div>
+<script>
+    document.getElementById("increment").addEventListener("click", onIncrement);
+    document.getElementById("decrement").addEventListener("click", onDecrement);
+    document.getElementById("reset").addEventListener("click", onReset);
+    const valueEl = document.getElementById("value");
+
+    const initialState = {
+        value: 0
+    };
+
+    function counterReducer(state = initialState, action) {
+        switch (action.type) {
+            case "counter/incremented":
+                return { ...state, value: state.value + 1 };
+            case "counter/decremented":
+                return { ...state, value: state.value - 1 };
+            case "counter/reset":
+                return { ...state, value: 0 };
+            default:
+                return state;
+        }
+    }
+
+    const store = Redux.createStore(counterReducer);
+
+    function render() {
+        const state = store.getState();
+        valueEl.innerHTML = state.value.toString();
+    }
+
+
+    render();
+    store.subscribe(render);
+
+    function onIncrement() {
+        store.dispatch({ type: "counter/incremented" });
+    }
+
+    function onDecrement() {
+        store.dispatch({ type: "counter/decremented" });
+    }
+
+    function onReset() {
+        store.dispatch({type: "counter/reset"})
+    }
+
+
+</script>
+</body>
+</html>
