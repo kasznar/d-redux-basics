@@ -1,7 +1,7 @@
 import React, {FC} from "react";
-import {Comment} from "./commentsSlice";
 import {useAppDispatch} from "../../store/hooks";
-import {commentDisliked, commentLiked} from "./commentActions";
+import {Comment} from "./model";
+import {commentDisliked, commentLiked} from "./commentActionCreators";
 
 export const CommentItem: FC<{comment: Comment}> = ({comment}) => {
     const dispatch = useAppDispatch();

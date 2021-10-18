@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {CommentList} from "./CommentList";
 import {useAppDispatch} from "../../store/hooks";
 import {InputEvent} from "../../shared/types";
+import {commentActionsTypes} from "./commentActionsTypes";
 
 export const CommentsPage = () => {
     const [newComment, setNewComment] = useState('');
@@ -12,12 +13,10 @@ export const CommentsPage = () => {
     }
     const handleAdd = () => {
         dispatch({
-            type: 'comments/commentAdded',
+            type: commentActionsTypes.ADDED,
             payload: newComment
         })
     }
-
-
     return (<>
         <div className="NewComment">
             <h2>Write comment</h2>

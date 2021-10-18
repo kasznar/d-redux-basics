@@ -1,21 +1,21 @@
-import { createStore } from 'redux'
+import {AnyAction, applyMiddleware, createStore} from 'redux'
 import rootReducer from './reducer'
+import thunk, {ThunkAction} from "redux-thunk";
+import {composeWithDevTools} from "redux-devtools-extension";
 
-/*
-const composedEnhancer = composeWithDevTools(
-    // Add whatever middleware you actually want to use here
-    applyMiddleware()
-    // other store enhancers if any
+const enhancers = composeWithDevTools(
+    applyMiddleware(thunk)
 )
- */
 
-
-declare global {
-    interface Window { __REDUX_DEVTOOLS_EXTENSION__: any; }
-}
-
-const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore(rootReducer, enhancers)
 export default store
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    AnyAction
+    >

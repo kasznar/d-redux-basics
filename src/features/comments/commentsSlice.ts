@@ -1,20 +1,17 @@
-import CommentAction from "./commentActions";
+import CommentAction, {commentActionsTypes} from "./commentActionsTypes";
 import {RootState} from "../../store/store";
+import {Comment, CommentsState} from "./model";
 
-export interface Comment {
-    id: number;
-    text: string;
-    likes: number;
-}
 
-type CommentsState = Comment[];
-
-const initialState: CommentsState = [];
+const initialState: CommentsState = {
+    status: "idle",
+    items: [],
+};
 
 function nextCommentId(comments: Comment[]) {
     let max = -1;
 
-    comments.forEach((comment)=> {
+    comments.forEach((comment) => {
         if (comment.id > max) {
             max = comment.id;
         }
@@ -26,42 +23,56 @@ function nextCommentId(comments: Comment[]) {
 export default function commentsSlice(state = initialState, action: CommentAction): CommentsState {
     switch (action.type) {
         case 'comments/commentAdded': {
-            return [
+            return {
                 ...state,
-                {
-                    id: nextCommentId(state),
-                    text: action.payload,
-                    likes: 0
-                },
-            ]
+                items: [
+                    ...state.items,
+                    {
+                        id: nextCommentId(state.items),
+                        text: action.payload,
+                        likes: 0
+                    },
+                ]
+            }
         }
-        case 'comments/commentLiked': {
-            return state.map((comment) => {
-                if (comment.id !== action.payload) {
-                    return comment
-                }
+        case commentActionsTypes.LIKE: {
+            return {
+                ...state,
+                items: state.items.map((comment) => {
+                    if (comment.id !== action.payload) {
+                        return comment
+                    }
 
-                return {
-                    ...comment,
-                    likes: comment.likes+1,
-                }
-            })
+                    return {
+                        ...comment,
+                        likes: comment.likes + 1,
+                    }
+                })
+            }
         }
-        case 'comments/commentDisliked': {
-            return state.map((comment) => {
-                if (comment.id !== action.payload) {
-                    return comment
-                }
+        case commentActionsTypes.DISLIKE: {
+            return {
+                ...state, items: state.items.map((comment) => {
+                    if (comment.id !== action.payload) {
+                        return comment
+                    }
 
-                return {
-                    ...comment,
-                    likes: comment.likes-1,
-                }
-            })
+                    return {
+                        ...comment,
+                        likes: comment.likes - 1,
+                    }
+                })
+            }
+        }
+        case commentActionsTypes.FETCH_SUCCESS: {
+            return {
+                ...state,
+                items: action.payload
+            }
         }
         default:
             return state
     }
 }
 
-export const selectComments = (state: RootState) => state.comments;
+export const selectComments = (state: RootState) => state.comments.items;
