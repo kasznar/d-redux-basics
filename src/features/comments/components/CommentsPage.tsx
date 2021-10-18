@@ -1,21 +1,18 @@
 import React, {useState} from "react";
 import {CommentList} from "./CommentList";
-import {useAppDispatch} from "../../store/hooks";
-import {InputEvent} from "../../shared/types";
-import {commentActionsTypes} from "./commentActionsTypes";
+import {InputEvent} from "../../../shared/types";
+import {useDispatch} from "react-redux";
+import {addCommentThunk} from "../actions/thunks";
 
 export const CommentsPage = () => {
     const [newComment, setNewComment] = useState('');
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch();
 
     const handleChange = (e: InputEvent) => {
         setNewComment(e.target.value)
     }
     const handleAdd = () => {
-        dispatch({
-            type: commentActionsTypes.ADDED,
-            payload: newComment
-        })
+        dispatch(addCommentThunk(newComment))
     }
     return (<>
         <div className="NewComment">

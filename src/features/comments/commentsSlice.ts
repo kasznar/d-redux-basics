@@ -1,6 +1,7 @@
-import CommentAction, {commentActionsTypes} from "./commentActionsTypes";
 import {RootState} from "../../store/store";
-import {Comment, CommentsState} from "./model";
+import {CommentsState} from "./model";
+import CommentAction from "./actions";
+import {commentActionsTypes} from "./actions/actionTypes";
 
 
 const initialState: CommentsState = {
@@ -8,66 +9,26 @@ const initialState: CommentsState = {
     items: [],
 };
 
-function nextCommentId(comments: Comment[]) {
-    let max = -1;
-
-    comments.forEach((comment) => {
-        if (comment.id > max) {
-            max = comment.id;
-        }
-    })
-
-    return max + 1;
-}
-
 export default function commentsSlice(state = initialState, action: CommentAction): CommentsState {
     switch (action.type) {
-        case 'comments/commentAdded': {
+        case commentActionsTypes.FETCH_PENDING: {
             return {
                 ...state,
-                items: [
-                    ...state.items,
-                    {
-                        id: nextCommentId(state.items),
-                        text: action.payload,
-                        likes: 0
-                    },
-                ]
+                status: "loading"
             }
         }
-        case commentActionsTypes.LIKE: {
+        case commentActionsTypes.FETCH_LIST_SUCCESS: {
             return {
                 ...state,
-                items: state.items.map((comment) => {
-                    if (comment.id !== action.payload) {
-                        return comment
-                    }
-
-                    return {
-                        ...comment,
-                        likes: comment.likes + 1,
-                    }
-                })
-            }
-        }
-        case commentActionsTypes.DISLIKE: {
-            return {
-                ...state, items: state.items.map((comment) => {
-                    if (comment.id !== action.payload) {
-                        return comment
-                    }
-
-                    return {
-                        ...comment,
-                        likes: comment.likes - 1,
-                    }
-                })
-            }
-        }
-        case commentActionsTypes.FETCH_SUCCESS: {
-            return {
-                ...state,
+                status: 'success',
                 items: action.payload
+            }
+        }
+        case commentActionsTypes.FETCH_FAILED: {
+            return {
+                ...state,
+                status: "error",
+                items: []
             }
         }
         default:
@@ -76,3 +37,4 @@ export default function commentsSlice(state = initialState, action: CommentActio
 }
 
 export const selectComments = (state: RootState) => state.comments.items;
+export const selectCommentsStatus = (state: RootState) => state.comments.status;

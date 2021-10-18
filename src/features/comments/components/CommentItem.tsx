@@ -1,16 +1,17 @@
 import React, {FC} from "react";
-import {useAppDispatch} from "../../store/hooks";
-import {Comment} from "./model";
-import {commentDisliked, commentLiked} from "./commentActionCreators";
+import {Comment} from "../model";
+import {useDispatch} from "react-redux";
+import {commentDislikedThunk, commentLikedThunk} from "../actions/thunks";
+
 
 export const CommentItem: FC<{comment: Comment}> = ({comment}) => {
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch();
 
     function handleLike() {
-        dispatch(commentLiked(comment.id))
+        dispatch(commentLikedThunk(comment.id))
     }
     function handleDislike() {
-        dispatch(commentDisliked(comment.id))
+        dispatch(commentDislikedThunk(comment.id))
     }
 
    return (<div className="Comment">

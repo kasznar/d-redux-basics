@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {CommentsPage} from "./features/comments/CommentsPage";
+import {CommentsPage} from "./features/comments/components/CommentsPage";
 
 function App() {
   return (
