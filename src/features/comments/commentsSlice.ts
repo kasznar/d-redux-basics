@@ -6,6 +6,7 @@ import {RootState} from "../../store/store";
  interface CommentsState {
     items: Comment[];
     status: 'idle' | 'loading' | 'error' | 'success';
+    error?: string;
 }
 
 const initialState: CommentsState = {
@@ -69,6 +70,19 @@ export default function commentsSlice(state = initialState, action: CommentActio
                 status: "success",
                 items: action.payload
             };
+        }
+        case CommentActionTypes.FETCH_PENDING: {
+            return {
+                ...state,
+                status: "loading",
+            }
+        }
+        case CommentActionTypes.FETCH_ERROR: {
+            return {
+                status: "error",
+                items: [],
+                error: action.payload
+            }
         }
         default:
             return state;

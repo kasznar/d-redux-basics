@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
-import {InputEvent} from "../../App";
+import {InputEvent} from "../../../App";
 import {CommentList} from "./CommentList";
-import {commentAdded} from "./actions/commentAdded";
+import {commentAdded} from "../actions/commentAdded";
 
 
 export const CommentsPage = () => {
