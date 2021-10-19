@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {CommentActionTypes} from "./commentActionTypes";
+import {useDispatch} from "react-redux";
 import {InputEvent} from "../../App";
 import {CommentList} from "./CommentList";
+import {commentAdded} from "./actions/commentAdded";
 
 
 export const CommentsPage = () => {
@@ -14,7 +14,7 @@ export const CommentsPage = () => {
     }
 
     const handleAdd = () => {
-        dispatch({type: CommentActionTypes.ADDED, payload: newComment})
+        dispatch(commentAdded(newComment))
     }
 
     return (

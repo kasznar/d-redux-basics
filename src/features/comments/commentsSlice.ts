@@ -1,4 +1,5 @@
-import CommentAction, {CommentActionTypes} from "./commentActionTypes";
+import {CommentActionTypes} from "./actions/commentActionTypes";
+import CommentAction from "./actions";
 
 export interface Comment{
     id: number,
