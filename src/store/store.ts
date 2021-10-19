@@ -1,12 +1,13 @@
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import rootReducer from "./reducer";
+import {composeWithDevTools} from "redux-devtools-extension";
+import thunk from "redux-thunk";
 
-declare global {
-    interface Window { __REDUX_DEVTOOLS_EXTENSION__: any; }
-}
+const enhancers = composeWithDevTools(
+    applyMiddleware(thunk)
+)
 
-
-const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore(rootReducer, enhancers)
 
 export default store;
 

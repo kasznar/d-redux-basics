@@ -1,8 +1,8 @@
 import React, {FC} from "react";
-import {Comment} from "./commentsSlice";
 import {useDispatch} from "react-redux";
 import {commentLiked} from "./actions/commentLiked";
 import {commentDislike} from "./actions/commentDisliked";
+import {Comment} from "./model";
 
 export const CommentItem: FC<{comment: Comment}> = ({comment}) => {
     const dispatch = useDispatch();

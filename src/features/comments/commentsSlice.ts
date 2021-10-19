@@ -1,15 +1,17 @@
 import {CommentActionTypes} from "./actions/commentActionTypes";
 import CommentAction from "./actions";
+import {Comment} from "./model";
+import {RootState} from "../../store/store";
 
-export interface Comment{
-    id: number,
-    text: string,
-    likes: number,
+ interface CommentsState {
+    items: Comment[];
+    status: 'idle' | 'loading' | 'error' | 'success';
 }
 
-type CommentsState = Comment[];
-
-const initialState: CommentsState = [];
+const initialState: CommentsState = {
+     items: [],
+    status: "idle",
+};
 
 function nextCommentId(comments: Comment[]) {
     let max = -1;
@@ -25,35 +27,53 @@ function nextCommentId(comments: Comment[]) {
 export default function commentsSlice(state = initialState, action: CommentAction): CommentsState {
     switch (action.type) {
         case CommentActionTypes.ADDED: {
-            return [
+            return {
                 ...state,
-                {
-                    id: nextCommentId(state),
-                    text: action.payload,
-                    likes: 0,
-                }
-            ]
+                items: [
+                    ...state.items,
+                    {
+                        id: nextCommentId(state.items),
+                        text: action.payload,
+                        likes: 0,
+                    }
+                ]
+            }
         }
         case CommentActionTypes.LIKED: {
-            return state.map((comment) => {
-                if (comment.id !== action.payload) {
-                    return comment;
-                }
+            return {
+                ...state,
+                items: state.items.map((comment) => {
+                    if (comment.id !== action.payload) {
+                        return comment;
+                    }
 
-                return {...comment, likes: comment.likes+1}
-            })
+                    return {...comment, likes: comment.likes+1}
+                })
+            }
         }
         case CommentActionTypes.DISLIKE: {
-            return state.map((comment) => {
-                if (comment.id !== action.payload) {
-                    return comment;
-                }
+            return {
+                ...state,
+                items: state.items.map((comment) => {
+                    if (comment.id !== action.payload) {
+                        return comment;
+                    }
 
-                return {...comment, likes: comment.likes-1}
-            })
+                    return {...comment, likes: comment.likes-1}
+                })
+            }
+        }
+        case CommentActionTypes.FETCH_SUCCESS: {
+            return {
+                ...state,
+                status: "success",
+                items: action.payload
+            };
         }
         default:
             return state;
     }
-
 }
+
+
+export const selectComments = (state: RootState) => state.comments.items;
