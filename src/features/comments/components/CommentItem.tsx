@@ -1,19 +1,19 @@
 import React, {FC} from "react";
 import {useDispatch} from "react-redux";
-import {commentLiked} from "../actions/commentLiked";
-import {commentDislike} from "../actions/commentDisliked";
 import {Comment} from "../model";
+import {commentLikedThunk} from "../actions/thunks/commentLikedThunk";
+import {commentDislikedThunk} from "../actions/thunks/commentDislikedThunk";
 
 export const CommentItem: FC<{comment: Comment}> = ({comment}) => {
     const dispatch = useDispatch();
 
 
     function handleLike() {
-        dispatch(commentLiked(comment.id))
+        dispatch(commentLikedThunk(comment.id))
     }
 
     function handleDislike() {
-        dispatch(commentDislike(comment.id))
+        dispatch(commentDislikedThunk(comment.id))
     }
 
 

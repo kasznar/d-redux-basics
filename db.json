@@ -1,17 +1,12 @@
 {
   "comments": [
     {
-      "id": 1,
-      "text": "some comment",
-      "likes": 37
-    },
-    {
-      "likes": 24,
+      "likes": 25,
       "text": "alma",
       "id": 2
     },
     {
-      "likes": 6,
+      "likes": 5,
       "text": "kecske",
       "id": 3
     },

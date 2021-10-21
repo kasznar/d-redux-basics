@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {InputEvent} from "../../../App";
 import {CommentList} from "./CommentList";
-import {commentAdded} from "../actions/commentAdded";
+import {addCommentThunk} from "../actions/thunks/addCommentThunk";
 
 
 export const CommentsPage = () => {
@@ -14,7 +14,7 @@ export const CommentsPage = () => {
     }
 
     const handleAdd = () => {
-        dispatch(commentAdded(newComment))
+        dispatch(addCommentThunk(newComment));
     }
 
     return (

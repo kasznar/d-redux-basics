@@ -27,43 +27,6 @@ function nextCommentId(comments: Comment[]) {
 
 export default function commentsSlice(state = initialState, action: CommentAction): CommentsState {
     switch (action.type) {
-        case CommentActionTypes.ADDED: {
-            return {
-                ...state,
-                items: [
-                    ...state.items,
-                    {
-                        id: nextCommentId(state.items),
-                        text: action.payload,
-                        likes: 0,
-                    }
-                ]
-            }
-        }
-        case CommentActionTypes.LIKED: {
-            return {
-                ...state,
-                items: state.items.map((comment) => {
-                    if (comment.id !== action.payload) {
-                        return comment;
-                    }
-
-                    return {...comment, likes: comment.likes+1}
-                })
-            }
-        }
-        case CommentActionTypes.DISLIKE: {
-            return {
-                ...state,
-                items: state.items.map((comment) => {
-                    if (comment.id !== action.payload) {
-                        return comment;
-                    }
-
-                    return {...comment, likes: comment.likes-1}
-                })
-            }
-        }
         case CommentActionTypes.FETCH_SUCCESS: {
             return {
                 ...state,

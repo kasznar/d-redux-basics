@@ -23,3 +23,8 @@ export const patchLikes = async (id: number, likes: number) => {
     return res.data;
 }
 
+export const deleteComment = async (id: number) => {
+    const res = await axios.delete(`/comments/${id}`);
+    return res.data;
+}
+
